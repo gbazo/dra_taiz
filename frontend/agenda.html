@@ -1,0 +1,111 @@
+<!-- app/frontend/agenda.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda - Dra. Taíz Brasil</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/img/logo.png" alt="Logo" class="nav-logo-img">
+                <span>Dra. Taíz Brasil</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/agenda" class="active">Agenda</a></li>
+                <li><a href="/clientes">Clientes</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Agenda</h1>
+                <button class="btn btn-primary" onclick="openModalNovoAgendamento()">Novo Agendamento</button>
+            </div>
+
+            <div class="agenda-controls">
+                <div class="date-navigation">
+                    <button class="btn btn-sm" onclick="previousWeek()">←</button>
+                    <input type="date" id="currentDate" onchange="loadAgenda()">
+                    <button class="btn btn-sm" onclick="nextWeek()">→</button>
+                </div>
+                <div class="view-options">
+                    <select id="viewType" onchange="changeView()">
+                        <option value="day">Dia</option>
+                        <option value="week">Semana</option>
+                    </select>
+                    <select id="filterProfissional" onchange="loadAgenda()">
+                        <option value="">Todos os profissionais</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="agendaContainer" class="agenda-container">
+                <div class="loading">Carregando agenda...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Novo Agendamento -->
+    <div id="modalNovoAgendamento" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Novo Agendamento</h2>
+                <span class="close" onclick="closeModal('modalNovoAgendamento')">&times;</span>
+            </div>
+            <form id="formNovoAgendamento" onsubmit="salvarAgendamento(event)">
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <select name="cliente_id" id="selectCliente" required>
+                        <option value="">Selecione o cliente</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Profissional</label>
+                    <select name="profissional_id" id="selectProfissional" required>
+                        <option value="">Selecione o profissional</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Procedimento</label>
+                    <select name="procedimento_id" id="selectProcedimento" required onchange="updateDuracao()">
+                        <option value="">Selecione o procedimento</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" name="data" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora</label>
+                        <input type="time" name="hora" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duração (min)</label>
+                        <input type="number" name="duracao_minutos" id="duracaoMinutos" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Observações</label>
+                    <textarea name="observacoes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Agendar</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalNovoAgendamento')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/agenda.js"></script>
+</body>
+</html>

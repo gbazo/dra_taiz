@@ -1,0 +1,22 @@
+bin/
+lib/
+include/
+pyvenv.cfg
+
+# Virtual environment
+venv/
+.env/
+
+# Ignorar ambiente virtual
+dra_taiz/
+
+# Cache e binários Python
+__pycache__/
+*.py[cod]
+
+# Config do editor/IDE (opcional)
+.vscode/
+.idea/
+
+# Arquivos do sistema
+.DS_Store

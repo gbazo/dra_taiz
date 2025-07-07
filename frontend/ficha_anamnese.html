@@ -1,0 +1,133 @@
+<!-- app/frontend/ficha_anamnese.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Anamnese - Dra. Taíz Brasil</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/img/logo.png" alt="Logo" class="nav-logo-img">
+                <span>Dra. Taíz Brasil</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/agenda">Agenda</a></li>
+                <li><a href="/clientes">Clientes</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Ficha de Anamnese</h1>
+                <div id="cliente-info" class="cliente-info"></div>
+            </div>
+
+            <div class="ficha-tabs">
+                <button class="tab active" onclick="showTab('nova-ficha')">Nova Ficha</button>
+                <button class="tab" onclick="showTab('historico')">Histórico</button>
+            </div>
+
+            <div id="nova-ficha" class="tab-content active">
+                <form id="formAnamnese" onsubmit="salvarFicha(event)">
+                    <div class="form-section">
+                        <h3>Dados Físicos</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Altura (cm)</label>
+                                <input type="number" name="altura" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Peso (kg)</label>
+                                <input type="number" name="peso" step="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Idade</label>
+                                <input type="number" name="idade" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Profissão</label>
+                            <input type="text" name="profissao" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Histórico de Saúde</h3>
+                        <div class="form-group">
+                            <label>Doenças</label>
+                            <textarea name="doencas" rows="2" placeholder="Separe por vírgula"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Alergias</label>
+                            <textarea name="alergias" rows="2" placeholder="Separe por vírgula"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Medicamentos em uso</label>
+                            <textarea name="medicamentos" rows="2" placeholder="Separe por vírgula"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Cirurgias realizadas</label>
+                            <textarea name="cirurgias" rows="2" placeholder="Separe por vírgula"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Histórico Estético</h3>
+                        <div class="form-group">
+                            <label>Procedimentos estéticos anteriores</label>
+                            <textarea name="historico_estetico" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Hábitos de Vida</h3>
+                        <div class="form-group">
+                            <label>Alimentação, exercícios, sono, etc.</label>
+                            <textarea name="habitos_vida" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Contraindicações</h3>
+                        <div class="form-group">
+                            <label>Condições que impedem procedimentos</label>
+                            <textarea name="contraindicacoes" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="consent-box">
+                            <label>
+                                <input type="checkbox" name="consentimento_aceito" required>
+                                Declaro que todas as informações fornecidas são verdadeiras e autorizo a realização dos procedimentos necessários.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Salvar Ficha</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="historico" class="tab-content">
+                <div id="historicoFichas" class="historico-list">
+                    <p class="loading">Carregando histórico...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/fichas.js"></script>
+</body>
+</html>
