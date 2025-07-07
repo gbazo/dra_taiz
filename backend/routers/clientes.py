@@ -21,9 +21,10 @@ async def create_cliente(
         
         result = parse_client.create_object("Cliente", data)
         
-        # Add created/updated timestamps
+        # Add created/updated timestamps and criado_por for response model validation
         result["createdAt"] = result.get("createdAt", datetime.now().isoformat())
         result["updatedAt"] = result.get("updatedAt", datetime.now().isoformat())
+        result["criado_por"] = current_user["objectId"]
         
         return Cliente(**result)
     except Exception as e:

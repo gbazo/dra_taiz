@@ -66,6 +66,11 @@ async function salvarCliente(event) {
     
     const formData = new FormData(event.target);
     const cliente = Object.fromEntries(formData);
+
+    // Format data_nascimento to YYYY-MM-DD
+    if (cliente.data_nascimento) {
+        cliente.data_nascimento = new Date(cliente.data_nascimento).toISOString().split('T')[0];
+    }
     
     try {
         // Debug
