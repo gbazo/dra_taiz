@@ -42,6 +42,10 @@ async def read_homepage():
 async def read_login():
     return FileResponse("frontend/login.html")
 
+@app.get("/register")
+async def read_register():
+    return FileResponse("frontend/register.html")
+
 @app.get("/dashboard")
 async def read_dashboard():
     return FileResponse("frontend/dashboard.html")

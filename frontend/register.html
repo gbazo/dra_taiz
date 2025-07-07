@@ -1,10 +1,9 @@
-<!-- app/frontend/login.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Dra. Taíz Brasil</title>
+    <title>Registro - Dra. Taíz Brasil</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="login-page">
@@ -12,24 +11,31 @@
         <div class="login-box">
             <div class="logo-container">
                 <img src="/img/logo.webp" alt="Dra. Taíz Brasil" class="logo">
-                <h1>Sistema de Gestão</h1>
+                <h1>Criar Conta</h1>
                 <p class="subtitle">Biomédica Esteta</p>
             </div>
             
-            <form id="loginForm" class="login-form">
+            <form id="registerForm" class="login-form">
                 <div class="form-group">
                     <input type="text" id="username" placeholder="Usuário" required>
                 </div>
                 <div class="form-group">
                     <input type="password" id="password" placeholder="Senha" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Entrar</button>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="E-mail" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="nome_completo" placeholder="Nome Completo" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
             </form>
             
             <div id="error-message" class="error-message"></div>
-            <p class="text-center mt-3"><a href="/register">Criar uma nova conta</a></p>
+            <div id="success-message" class="success-message"></div>
+            <p class="text-center mt-3"><a href="/login">Já tem uma conta? Faça login</a></p>
         </div>
     </div>
-    <script src="/js/auth.js"></script>
+    <script src="/js/register.js"></script>
 </body>
 </html>
