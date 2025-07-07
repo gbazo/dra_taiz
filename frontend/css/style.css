@@ -164,20 +164,26 @@ body {
     font-size: 14px;
 }
 
-/* Full-width link for login/register pages */
-.full-width-link {
+/* Action Link Button Style */
+.action-link-button {
     display: block;
     width: 100%;
-    text-align: center;
-    margin-top: 15px;
-    color: var(--primary-color);
-    text-decoration: none;
+    padding: 12px 24px; /* Mantém o padding dos botões */
+    font-size: 16px; /* Mantém o tamanho da fonte dos botões */
     font-weight: 500;
-    transition: color 0.3s;
+    text-align: center;
+    text-decoration: none;
+    border: none; /* Remove a borda */
+    background: none; /* Remove o background */
+    border-radius: 6px; /* Mantém o border-radius dos botões */
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--primary-color); /* Cor do texto primária */
+    margin-top: 15px; /* Espaçamento superior */
 }
 
-.full-width-link:hover {
-    color: var(--primary-dark);
+.action-link-button:hover {
+    color: var(--primary-dark); /* Cor do texto no hover */
 }
 
 /* Navbar */
