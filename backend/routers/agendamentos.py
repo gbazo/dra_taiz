@@ -31,7 +31,7 @@ def check_conflito_horario(data_hora: datetime, duracao_minutos: int, agendament
     
     return len(conflitos) > 0
 
-@router.post("/", response_model=Agendamento)
+@router.post("", response_model=Agendamento)
 async def create_agendamento(
     agendamento: AgendamentoCreate,
     current_user: dict = Depends(get_current_user)
@@ -52,7 +52,7 @@ async def create_agendamento(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/", response_model=List[Agendamento])
+@router.get("", response_model=List[Agendamento])
 async def list_agendamentos(
     data_inicio: date = None,
     data_fim: date = None,
