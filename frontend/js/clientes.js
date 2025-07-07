@@ -11,11 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadClientes() {
     try {
+        // Debug
+        console.log('Loading clientes...');
         const clientes = await apiRequest('/clientes');
         allClientes = clientes;
         renderClientes(clientes);
     } catch (error) {
         console.error('Error loading clientes:', error);
+        // Mostrar erro na interface
+        const tbody = document.getElementById('clientesTableBody');
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center error-message">Erro ao carregar clientes: ${error.message}</td></tr>`;
     }
 }
 
@@ -63,6 +68,9 @@ async function salvarCliente(event) {
     const cliente = Object.fromEntries(formData);
     
     try {
+        // Debug
+        console.log('Saving cliente:', cliente);
+        
         await apiRequest('/clientes', {
             method: 'POST',
             body: JSON.stringify(cliente)
@@ -72,6 +80,12 @@ async function salvarCliente(event) {
         loadClientes();
         alert('Cliente cadastrado com sucesso!');
     } catch (error) {
+        console.error('Error saving cliente:', error);
         alert('Erro ao cadastrar cliente: ' + error.message);
     }
+}
+
+function editCliente(clienteId) {
+    // TODO: Implementar edição
+    alert('Função de edição em desenvolvimento');
 }

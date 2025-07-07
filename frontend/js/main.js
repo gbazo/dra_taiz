@@ -1,9 +1,24 @@
 // app/frontend/js/main.js
 
 // API Base URL
-// Força HTTPS em produção (b4a.run)
-const protocol = window.location.host.includes('b4a.run') ? 'https:' : window.location.protocol;
-const API_URL = `${protocol}//${window.location.host}/api`;
+// Sempre força HTTPS em produção
+let API_URL;
+if (window.location.hostname.includes('b4a.run') || window.location.hostname.includes('back4app')) {
+    // Força HTTPS em produção
+    API_URL = `https://${window.location.host}/api`;
+} else if (window.location.protocol === 'https:') {
+    // Se já está em HTTPS, mantém
+    API_URL = `https://${window.location.host}/api`;
+} else {
+    // Apenas em desenvolvimento local permite HTTP
+    API_URL = `http://${window.location.host}/api`;
+}
+
+// Debug - remover depois de resolver o problema
+console.log('Current hostname:', window.location.hostname);
+console.log('Current host:', window.location.host);
+console.log('Current protocol:', window.location.protocol);
+console.log('API URL:', API_URL);
 
 // Check authentication
 function checkAuth() {
@@ -30,7 +45,11 @@ async function apiRequest(endpoint, options = {}) {
         }
     };
     
-    const response = await fetch(`${API_URL}${endpoint}`, {
+    // Debug - remover depois
+    const fullUrl = `${API_URL}${endpoint}`;
+    console.log('Making request to:', fullUrl);
+    
+    const response = await fetch(fullUrl, {
         ...defaultOptions,
         ...options,
         headers: {
