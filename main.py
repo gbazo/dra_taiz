@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
 
-from .routers import auth, clientes, fichas, agendamentos, procedimentos
+from backend.routers import auth, clientes, fichas, agendamentos, procedimentos
 
 app = FastAPI(title="Clínica Estética API", version="1.0.0")
 
