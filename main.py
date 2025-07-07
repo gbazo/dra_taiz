@@ -58,6 +58,10 @@ async def read_ficha(cliente_id: str):
 async def read_agenda():
     return FileResponse("frontend/agenda.html")
 
+@app.get("/links")
+async def read_links():
+    return FileResponse("frontend/links.html")
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
