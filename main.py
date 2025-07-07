@@ -81,6 +81,10 @@ async def read_ficha(cliente_id: str):
 async def read_agenda():
     return FileResponse("frontend/agenda.html")
 
+@app.get("/procedimentos")
+async def read_procedimentos():
+    return FileResponse("frontend/procedimentos.html")
+
 @app.get("/links")
 async def read_links():
     return FileResponse("frontend/links.html")

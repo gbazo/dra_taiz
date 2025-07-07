@@ -1,6 +1,6 @@
-# app/backend/routers/procedimentos.py
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
+from datetime import datetime
 
 from backend.models.procedimento import Procedimento, ProcedimentoCreate, ProcedimentoUpdate
 from backend.utils.parse_client import parse_client
@@ -8,26 +8,30 @@ from backend.routers.auth import get_current_user
 
 router = APIRouter()
 
-@router.post("/", response_model=Procedimento)
+@router.post("", response_model=Procedimento)
 async def create_procedimento(
     procedimento: ProcedimentoCreate,
     current_user: dict = Depends(get_current_user)
 ):
     try:
         data = procedimento.dict()
-        data["criado_por"] = current_user["objectId"]
-        
         result = parse_client.create_object("Procedimento", data)
+        
+        result["createdAt"] = result.get("createdAt", datetime.now().isoformat())
+        result["updatedAt"] = result.get("updatedAt", datetime.now().isoformat())
+        
         return Procedimento(**result)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/", response_model=List[Procedimento])
+@router.get("", response_model=List[Procedimento])
 async def list_procedimentos(
+    skip: int = 0,
+    limit: int = 100,
     current_user: dict = Depends(get_current_user)
 ):
     try:
-        results = parse_client.query_objects("Procedimento", order="nome")
+        results = parse_client.query_objects("Procedimento", limit=limit, skip=skip, order="-createdAt")
         return [Procedimento(**proc) for proc in results]
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

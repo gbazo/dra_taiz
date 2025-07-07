@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedimentos - Dra. Taíz Brasil</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/img/logo.webp" alt="Logo" class="nav-logo-img">
+                <span>Dra. Taíz Brasil</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/agenda">Agenda</a></li>
+                <li><a href="/clientes">Clientes</a></li>
+                <li><a href="/procedimentos" class="active">Procedimentos</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Procedimentos</h1>
+                <button class="btn btn-primary" onclick="openModalNovoProcedimento()">Novo Procedimento</button>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="searchProcedimentos" placeholder="Buscar procedimento..." onkeyup="searchProcedimentos()">
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="procedimentosTableBody">
+                        <tr>
+                            <td colspan="4" class="loading">Carregando procedimentos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Novo/Editar Procedimento -->
+    <div id="modalProcedimento" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Novo Procedimento</h2>
+                <span class="close" onclick="closeModal('modalProcedimento')">&times;</span>
+            </div>
+            <form id="formProcedimento" onsubmit="salvarProcedimento(event)">
+                <input type="hidden" id="procedimentoId" name="objectId">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Valor (R$)</label>
+                    <input type="number" id="valor" name="valor" step="0.01">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalProcedimento')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/procedimentos.js"></script>
+</body>
+</html>
