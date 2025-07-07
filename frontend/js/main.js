@@ -1,7 +1,9 @@
 // app/frontend/js/main.js
 
 // API Base URL
-const API_URL = window.location.host.includes('b4a.run') ? `https://${window.location.host}/api` : `${window.location.protocol}//${window.location.host}/api`;
+// Força HTTPS em produção (b4a.run)
+const protocol = window.location.host.includes('b4a.run') ? 'https:' : window.location.protocol;
+const API_URL = `${protocol}//${window.location.host}/api`;
 
 // Check authentication
 function checkAuth() {
