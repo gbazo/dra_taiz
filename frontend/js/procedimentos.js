@@ -24,7 +24,7 @@ function renderProcedimentos(procedimentos) {
     const tbody = document.getElementById('procedimentosTableBody');
     
     if (procedimentos.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center">Nenhum procedimento cadastrado</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center">Nenhum procedimento cadastrado</td></tr>';
         return;
     }
     
@@ -33,6 +33,7 @@ function renderProcedimentos(procedimentos) {
             <td>${proc.nome}</td>
             <td>${proc.descricao || '-'}</td>
             <td>${proc.valor ? `R$ ${proc.valor.toFixed(2)}` : '-'}</td>
+            <td>${proc.duracao_minutos || '-'}</td>
             <td>
                 <button onclick="editProcedimento('${proc.objectId}')" class="btn btn-sm btn-secondary">Editar</button>
                 <button onclick="deleteProcedimento('${proc.objectId}')" class="btn btn-sm btn-danger">Excluir</button>
@@ -62,6 +63,14 @@ async function salvarProcedimento(event) {
     
     const formData = new FormData(event.target);
     const procedimento = Object.fromEntries(formData);
+    
+    // Convert valor to float and duracao_minutos to int
+    if (procedimento.valor) {
+        procedimento.valor = parseFloat(procedimento.valor);
+    }
+    if (procedimento.duracao_minutos) {
+        procedimento.duracao_minutos = parseInt(procedimento.duracao_minutos);
+    }
     
     const procedimentoId = document.getElementById('procedimentoId').value;
     
@@ -95,6 +104,7 @@ async function editProcedimento(procedimentoId) {
         document.getElementById('nome').value = proc.nome;
         document.getElementById('descricao').value = proc.descricao || '';
         document.getElementById('valor').value = proc.valor || '';
+        document.getElementById('duracao_minutos').value = proc.duracao_minutos || '';
         document.getElementById('modalTitle').textContent = 'Editar Procedimento';
         openModal('modalProcedimento');
     } catch (error) {
