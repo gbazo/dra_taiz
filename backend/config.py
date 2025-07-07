@@ -8,6 +8,8 @@ class Settings:
     PARSE_APP_ID = os.getenv("PARSE_APP_ID")
     PARSE_JAVASCRIPT_KEY = os.getenv("PARSE_JAVASCRIPT_KEY")
     PARSE_MASTER_KEY = os.getenv("PARSE_MASTER_KEY")
+    PARSE_REST_API_KEY = os.getenv("PARSE_REST_API_KEY")
+    PARSE_FILE_KEY = os.getenv("PARSE_FILE_KEY")
     PARSE_SERVER_URL = os.getenv("PARSE_SERVER_URL", "https://parseapi.back4app.com")
     
     # JWT Configuration
@@ -18,7 +20,7 @@ class Settings:
     # API Headers for Parse
     PARSE_HEADERS = {
         "X-Parse-Application-Id": PARSE_APP_ID,
-        "X-Parse-Master-Key": PARSE_MASTER_KEY,
+        "X-Parse-REST-API-Key": PARSE_REST_API_KEY,
         "Content-Type": "application/json"
     }
 
