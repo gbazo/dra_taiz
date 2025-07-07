@@ -164,6 +164,22 @@ body {
     font-size: 14px;
 }
 
+/* Full-width link for login/register pages */
+.full-width-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.full-width-link:hover {
+    color: var(--primary-dark);
+}
+
 /* Navbar */
 .navbar {
     background-color: var(--white);
