@@ -2,11 +2,29 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 import os
 
 from backend.routers import auth, clientes, fichas, agendamentos, procedimentos
 
-app = FastAPI(title="Clínica Estética API", version="1.0.0")
+app = FastAPI(
+    title="Clínica Estética API", 
+    version="1.0.0",
+    redirect_slashes=False  # Desabilita redirecionamento automático de barras
+)
+
+# Trusted Host Middleware (permite tanto HTTP quanto HTTPS)
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=["*"]  # Em produção, especifique os hosts permitidos
+)
+
+# Custom middleware to handle HTTPS redirect
+@app.middleware("http")
+async def force_https(request: Request, call_next):
+    # Se estiver em produção e a requisição veio como HTTP, não redireciona, apenas processa
+    response = await call_next(request)
+    return response
 
 # CORS middleware
 app.add_middleware(
@@ -15,6 +33,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 # API routers

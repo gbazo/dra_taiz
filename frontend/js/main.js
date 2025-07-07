@@ -1,22 +1,26 @@
 // app/frontend/js/main.js
 
 // API Base URL
-// Sempre força HTTPS em produção
+// SEMPRE usa HTTPS em produção, sem exceções
 let API_URL;
-if (window.location.hostname.includes('b4a.run') || window.location.hostname.includes('back4app')) {
-    // Força HTTPS em produção
-    API_URL = `https://${window.location.host}/api`;
-} else if (window.location.protocol === 'https:') {
-    // Se já está em HTTPS, mantém
-    API_URL = `https://${window.location.host}/api`;
+
+// Detecta ambiente de produção de forma mais abrangente
+const isProduction = window.location.hostname.includes('b4a.run') || 
+                    window.location.hostname.includes('back4app') ||
+                    window.location.protocol === 'https:';
+
+if (isProduction) {
+    // Em produção ou HTTPS, sempre força HTTPS
+    API_URL = `https://${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`;
 } else {
-    // Apenas em desenvolvimento local permite HTTP
-    API_URL = `http://${window.location.host}/api`;
+    // Apenas em localhost permite HTTP
+    API_URL = `http://${window.location.hostname}:${window.location.port || '8000'}/api`;
 }
 
 // Debug - remover depois de resolver o problema
+console.log('Environment:', isProduction ? 'Production' : 'Development');
 console.log('Current hostname:', window.location.hostname);
-console.log('Current host:', window.location.host);
+console.log('Current port:', window.location.port);
 console.log('Current protocol:', window.location.protocol);
 console.log('API URL:', API_URL);
 
@@ -38,6 +42,11 @@ function logout() {
 // API Request helper
 async function apiRequest(endpoint, options = {}) {
     const token = localStorage.getItem('token');
+    
+    // Garante que o endpoint começa com / e não termina com /
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
+    const finalEndpoint = cleanEndpoint.endsWith('/') ? cleanEndpoint.slice(0, -1) : cleanEndpoint;
+    
     const defaultOptions = {
         headers: {
             'Content-Type': 'application/json',
@@ -46,30 +55,35 @@ async function apiRequest(endpoint, options = {}) {
     };
     
     // Debug - remover depois
-    const fullUrl = `${API_URL}${endpoint}`;
+    const fullUrl = `${API_URL}${finalEndpoint}`;
     console.log('Making request to:', fullUrl);
+    console.log('Method:', options.method || 'GET');
     
-    const response = await fetch(fullUrl, {
-        ...defaultOptions,
-        ...options,
-        headers: {
-            ...defaultOptions.headers,
-            ...options.headers
+    try {
+        const response = await fetch(fullUrl, {
+            ...defaultOptions,
+            ...options,
+            headers: {
+                ...defaultOptions.headers,
+                ...options.headers
+            }
+        });
+        if (response.status === 401) {
+            logout();
+            return;
         }
-    });
-    
-    if (response.status === 401) {
-        logout();
-        return;
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.detail || 'Erro na requisição');
+        }
+        
+        return data;
+    } catch (error) {
+        console.error('Request error:', error);
+        throw error;
     }
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-        throw new Error(data.detail || 'Erro na requisição');
-    }
-    
-    return data;
 }
 
 // Modal functions
