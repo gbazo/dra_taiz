@@ -2,9 +2,9 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 
-from ..models.ficha_anamnese import FichaAnamnese, FichaAnamneseCreate, FichaAnamneseUpdate
-from ..utils.parse_client import parse_client
-from .auth import get_current_user
+from backend.models.ficha_anamnese import FichaAnamnese, FichaAnamneseCreate, FichaAnamneseUpdate
+from backend.utils.parse_client import parse_client
+from backend.routers.auth import get_current_user
 
 router = APIRouter()
 

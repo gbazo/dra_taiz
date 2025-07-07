@@ -3,9 +3,9 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from datetime import datetime
 
-from ..models.cliente import Cliente, ClienteCreate, ClienteUpdate
-from ..utils.parse_client import parse_client
-from .auth import get_current_user
+from backend.models.cliente import Cliente, ClienteCreate, ClienteUpdate
+from backend.utils.parse_client import parse_client
+from backend.routers.auth import get_current_user
 
 router = APIRouter()
 

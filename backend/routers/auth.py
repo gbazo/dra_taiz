@@ -6,8 +6,8 @@ from datetime import datetime, timedelta
 from typing import Optional
 from pydantic import BaseModel
 
-from ..config import settings
-from ..utils.parse_client import parse_client
+from backend.config import settings
+from backend.utils.parse_client import parse_client
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
