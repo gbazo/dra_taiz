@@ -34,6 +34,10 @@ app.mount("/img", StaticFiles(directory="frontend/img"), name="img")
 async def read_index():
     return FileResponse("frontend/index.html")
 
+@app.get("/homepage")
+async def read_homepage():
+    return FileResponse("frontend/homepage.html")
+
 @app.get("/login")
 async def read_login():
     return FileResponse("frontend/login.html")
