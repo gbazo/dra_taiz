@@ -1,7 +1,7 @@
 // app/frontend/js/main.js
 
 // API Base URL
-const API_URL = '/api';
+const API_URL = window.location.protocol + '//' + window.location.host + '/api';
 
 // Check authentication
 function checkAuth() {
