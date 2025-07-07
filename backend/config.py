@@ -20,7 +20,7 @@ class Settings:
     # API Headers for Parse
     PARSE_HEADERS = {
         "X-Parse-Application-Id": PARSE_APP_ID,
-        "X-Parse-REST-API-Key": PARSE_REST_API_KEY,
+        "X-Parse-Master-Key": PARSE_MASTER_KEY,
         "Content-Type": "application/json"
     }
 
