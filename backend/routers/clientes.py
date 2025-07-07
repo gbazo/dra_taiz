@@ -1,4 +1,3 @@
-# app/backend/routers/clientes.py
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from datetime import datetime
@@ -9,7 +8,7 @@ from backend.routers.auth import get_current_user
 
 router = APIRouter()
 
-@router.post("/", response_model=Cliente)
+@router.post("", response_model=Cliente)
 async def create_cliente(
     cliente: ClienteCreate,
     current_user: dict = Depends(get_current_user)
@@ -30,7 +29,7 @@ async def create_cliente(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/", response_model=List[Cliente])
+@router.get("", response_model=List[Cliente])
 async def list_clientes(
     skip: int = 0,
     limit: int = 100,

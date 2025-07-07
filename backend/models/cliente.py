@@ -1,89 +1,31 @@
-# app/backend/routers/clientes.py
-from fastapi import APIRouter, HTTPException, Depends
-from typing import List
-from datetime import datetime
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+from datetime import date
 
-from backend.models.cliente import Cliente, ClienteCreate, ClienteUpdate
-from backend.utils.parse_client import parse_client
-from backend.routers.auth import get_current_user
+class ClienteBase(BaseModel):
+    nome_completo: str
+    data_nascimento: date
+    telefone: str
+    email: Optional[EmailStr] = None
+    endereco: Optional[str] = None
+    cpf: Optional[str] = None
+    rg: Optional[str] = None
+    profissao: Optional[str] = None
+    indicacao: Optional[str] = None
 
-router = APIRouter()
+class ClienteCreate(ClienteBase):
+    pass
 
-# Rota sem barra no final
-@router.post("", response_model=Cliente)
-async def create_cliente(
-    cliente: ClienteCreate,
-    current_user: dict = Depends(get_current_user)
-):
-    try:
-        # Convert date to ISO string for Parse
-        data = cliente.dict()
-        data["data_nascimento"] = data["data_nascimento"].isoformat()
-        data["criado_por"] = current_user["objectId"]
-        
-        result = parse_client.create_object("Cliente", data)
-        
-        # Add created/updated timestamps
-        result["createdAt"] = result.get("createdAt", datetime.now().isoformat())
-        result["updatedAt"] = result.get("updatedAt", datetime.now().isoformat())
-        
-        return Cliente(**result)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+class ClienteUpdate(ClienteBase):
+    nome_completo: Optional[str] = None
+    data_nascimento: Optional[date] = None
+    telefone: Optional[str] = None
 
-# Rota sem barra no final
-@router.get("", response_model=List[Cliente])
-async def list_clientes(
-    skip: int = 0,
-    limit: int = 100,
-    current_user: dict = Depends(get_current_user)
-):
-    try:
-        results = parse_client.query_objects("Cliente", limit=limit, skip=skip, order="-createdAt")
-        return [Cliente(**cliente) for cliente in results]
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+class Cliente(ClienteBase):
+    objectId: str
+    createdAt: str
+    updatedAt: str
+    criado_por: str
 
-@router.get("/{cliente_id}", response_model=Cliente)
-async def get_cliente(
-    cliente_id: str,
-    current_user: dict = Depends(get_current_user)
-):
-    try:
-        result = parse_client.get_object("Cliente", cliente_id)
-        return Cliente(**result)
-    except Exception as e:
-        raise HTTPException(status_code=404, detail="Cliente not found")
-
-@router.put("/{cliente_id}", response_model=Cliente)
-async def update_cliente(
-    cliente_id: str,
-    cliente: ClienteUpdate,
-    current_user: dict = Depends(get_current_user)
-):
-    try:
-        # Filter out None values
-        update_data = {k: v for k, v in cliente.dict().items() if v is not None}
-        
-        # Convert date if present
-        if "data_nascimento" in update_data:
-            update_data["data_nascimento"] = update_data["data_nascimento"].isoformat()
-        
-        parse_client.update_object("Cliente", cliente_id, update_data)
-        
-        # Get updated object
-        result = parse_client.get_object("Cliente", cliente_id)
-        return Cliente(**result)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-@router.delete("/{cliente_id}")
-async def delete_cliente(
-    cliente_id: str,
-    current_user: dict = Depends(get_current_user)
-):
-    try:
-        parse_client.delete_object("Cliente", cliente_id)
-        return {"message": "Cliente deleted successfully"}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    class Config:
+        orm_mode = True
