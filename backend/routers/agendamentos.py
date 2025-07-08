@@ -46,6 +46,8 @@ async def create_agendamento(
         data["criado_por"] = current_user["objectId"]
         
         result = parse_client.create_object("Agendamento", data)
+        if 'data_hora' in result and isinstance(result['data_hora'], dict):
+            result['data_hora'] = result['data_hora']['iso']
         return Agendamento(**result)
     except HTTPException:
         raise
@@ -72,7 +74,15 @@ async def list_agendamentos(
             where["profissional_id"] = profissional_id
         
         results = parse_client.query_objects("Agendamento", where=where, order="data_hora")
-        return [Agendamento(**ag) for ag in results]
+        
+        # Corrigir o formato da data antes de retornar
+        agendamentos_corrigidos = []
+        for ag in results:
+            if 'data_hora' in ag and isinstance(ag['data_hora'], dict):
+                ag['data_hora'] = ag['data_hora']['iso']
+            agendamentos_corrigidos.append(Agendamento(**ag))
+            
+        return agendamentos_corrigidos
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -83,6 +93,8 @@ async def get_agendamento(
 ):
     try:
         result = parse_client.get_object("Agendamento", agendamento_id)
+        if 'data_hora' in result and isinstance(result['data_hora'], dict):
+            result['data_hora'] = result['data_hora']['iso']
         return Agendamento(**result)
     except Exception as e:
         raise HTTPException(status_code=404, detail="Agendamento not found")
@@ -108,6 +120,8 @@ async def update_agendamento(
         parse_client.update_object("Agendamento", agendamento_id, update_data)
         
         result = parse_client.get_object("Agendamento", agendamento_id)
+        if 'data_hora' in result and isinstance(result['data_hora'], dict):
+            result['data_hora'] = result['data_hora']['iso']
         return Agendamento(**result)
     except HTTPException:
         raise
