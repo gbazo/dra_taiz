@@ -157,3 +157,22 @@ async def update_agendamento_status(
         return Agendamento(**result)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/migrate_status")
+async def migrate_agendamento_status(current_user: dict = Depends(get_current_user)):
+    try:
+        # Apenas para administradores ou usuários autorizados
+        # if current_user["role"] != "admin":
+        #     raise HTTPException(status_code=403, detail="Acesso negado")
+
+        where = {"status": "confirmado"}
+        agendamentos_to_migrate = parse_client.query_objects("Agendamento", where=where)
+        
+        count = 0
+        for ag in agendamentos_to_migrate:
+            parse_client.update_object("Agendamento", ag["objectId"], {"status": "agendado"})
+            count += 1
+        
+        return {"message": f"{count} agendamentos migrados de 'confirmado' para 'agendado'"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
