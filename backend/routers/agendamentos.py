@@ -1,7 +1,7 @@
 # app/backend/routers/agendamentos.py
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from backend.models.agendamento import Agendamento, AgendamentoCreate, AgendamentoUpdate
 from backend.utils.parse_client import parse_client
