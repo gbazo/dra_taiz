@@ -47,8 +47,10 @@
                         <textarea id="hero_text" name="hero_text" rows="4"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="hero_image_url">URL da Imagem</label>
-                        <input type="url" id="hero_image_url" name="hero_image_url">
+                        <label for="hero_image_upload">Imagem Hero (Sugestão: 1920x1080px)</label>
+                        <input type="file" id="hero_image_upload" name="hero_image_upload" accept="image/*">
+                        <input type="hidden" id="hero_image_url" name="hero_image_url">
+                        <img id="hero_image_preview" src="" alt="Pré-visualização da Imagem Hero" style="max-width: 200px; margin-top: 10px; display: none;">
                     </div>
                     <div class="form-group">
                         <label for="hero_cta_contact_link">Link CTA Contato</label>
@@ -72,8 +74,10 @@
                         <input type="text" id="about_subtitle" name="about_subtitle">
                     </div>
                     <div class="form-group">
-                        <label for="about_image_url">URL da Imagem</label>
-                        <input type="url" id="about_image_url" name="about_image_url">
+                        <label for="about_image_upload">Imagem Sobre (Sugestão: 800x800px)</label>
+                        <input type="file" id="about_image_upload" name="about_image_upload" accept="image/*">
+                        <input type="hidden" id="about_image_url" name="about_image_url">
+                        <img id="about_image_preview" src="" alt="Pré-visualização da Imagem Sobre" style="max-width: 200px; margin-top: 10px; display: none;">
                     </div>
                     <div class="form-group">
                         <label for="about_text_1">Texto 1</label>

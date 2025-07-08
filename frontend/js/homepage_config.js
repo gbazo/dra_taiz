@@ -2,6 +2,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('homepageConfigForm');
     let homepageSettingsId = null;
 
+    // Helper function to upload image
+    async function uploadImage(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            const result = await apiRequest('/homepage_settings/upload_image', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    // Important: Do NOT set Content-Type header for FormData
+                    // The browser will set it automatically with the correct boundary
+                }
+            });
+            return result.url;
+        } catch (error) {
+            console.error('Erro ao fazer upload da imagem:', error);
+            alert('Erro ao fazer upload da imagem: ' + error.message);
+            return null;
+        }
+    }
+
+    // Function to handle image file selection and upload
+    window.handleImageUpload = async (event, hiddenInputId, previewId) => {
+        const fileInput = event.target;
+        const hiddenInput = document.getElementById(hiddenInputId);
+        const previewImg = document.getElementById(previewId);
+
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const imageUrl = await uploadImage(file);
+            if (imageUrl) {
+                hiddenInput.value = imageUrl;
+                previewImg.src = imageUrl;
+                previewImg.style.display = 'block';
+            } else {
+                hiddenInput.value = '';
+                previewImg.src = '';
+                previewImg.style.display = 'none';
+            }
+        } else {
+            hiddenInput.value = '';
+            previewImg.src = '';
+            previewImg.style.display = 'none';
+        }
+    };
+
     // Funções para adicionar itens dinâmicos
     window.addFeatureItem = () => {
         const container = document.getElementById('about_features_container');
@@ -135,6 +181,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                 } else {
                     element.value = settings[key];
+                    // Display image previews if URLs exist
+                    if (key === 'hero_image_url' && settings[key]) {
+                        const previewImg = document.getElementById('hero_image_preview');
+                        previewImg.src = settings[key];
+                        previewImg.style.display = 'block';
+                    } else if (key === 'about_image_url' && settings[key]) {
+                        const previewImg = document.getElementById('about_image_preview');
+                        previewImg.src = settings[key];
+                        previewImg.style.display = 'block';
+                    }
                 }
             }
         }
@@ -147,15 +203,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const formData = new FormData(form);
         const data = {};
 
-        // Processar campos simples
-        for (const [key, value] of formData.entries()) {
-            if (!key.includes('[')) {
-                data[key] = value;
+        // Processar campos simples (incluindo os hidden inputs de URL de imagem)
+        const simpleInputs = form.querySelectorAll('input:not([type="file"]), textarea, select');
+        simpleInputs.forEach(input => {
+            if (!input.name.includes('[')) { // Exclui os campos de arrays dinâmicos
+                data[input.name] = input.value;
             }
-        }
+        });
 
         // Processar arrays (features, services, testimonials, contact info)
         const processArray = (prefix, containerId) => {
