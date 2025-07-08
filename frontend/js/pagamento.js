@@ -20,10 +20,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             agendamento = await apiRequest(`/agendamentos/${agendamentoId}`);
             procedimento = await apiRequest(`/procedimentos/${agendamento.procedimento_id}`);
+            const cliente = await apiRequest(`/clientes/${agendamento.cliente_id}`);
             valorProcedimentoOriginal = procedimento.valor;
 
             detalhesAgendamentoDiv.innerHTML = `
-                <p><strong>Cliente:</strong> ${agendamento.cliente_id}</p>
+                <p><strong>Cliente:</strong> ${cliente.nome_completo}</p>
                 <p><strong>Procedimento:</strong> ${procedimento.nome}</p>
                 <p><strong>Valor Original:</strong> R$ ${valorProcedimentoOriginal.toFixed(2)}</p>
             `;
@@ -123,15 +124,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     formPagamento.addEventListener('submit', async (event) => {
         event.preventDefault();
         const metodo = metodoPagamentoSelect.value;
-        const desconto = parseFloat(descontoInput.value) || 0;
-        const acrescimo = parseFloat(acrescimoInput.value) || 0;
-        const valorFinal = valorProcedimentoOriginal - desconto + acrescimo;
 
         if (metodo === 'dinheiro' || metodo === 'pix') {
             processPayment(null); // Para dinheiro e PIX, não há token de cartão
         } else if (metodo === 'credito' || metodo === 'debito') {
-            // O onSubmit do cardForm já chamará processPayment com o token
-            // Nada a fazer aqui, o cardForm.onSubmit já cuida disso
+            // Para cartão, a submissão é tratada pelo cardForm.onSubmit do Mercado Pago
+            // Não fazemos nada aqui para evitar submissão duplicada
         }
     });
 
