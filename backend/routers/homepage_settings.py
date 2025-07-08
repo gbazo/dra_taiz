@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
 from typing import List
 
 from backend.models.homepage_settings import HomepageSettings, HomepageSettingsCreate, HomepageSettingsUpdate
@@ -40,5 +40,23 @@ async def update_homepage_settings(
             # Cria novas configurações se não existirem
             new_settings = parse_client.create_object("HomepageSettings", settings_update.dict())
             return HomepageSettings(**new_settings)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/upload_image")
+async def upload_image(file: UploadFile = File(...), current_user: dict = Depends(get_current_user)):
+    try:
+        # Opcional: Adicionar verificação de permissão (ex: apenas admin)
+        # if current_user["role"] != "admin":
+        #     raise HTTPException(status_code=403, detail="Acesso negado")
+
+        file_content = await file.read()
+        file_name = file.filename
+        content_type = file.content_type
+
+        # Salva o arquivo usando o parse_client
+        result = parse_client.upload_file(file_name, content_type, file_content)
+        
+        return {"url": result["url"]}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

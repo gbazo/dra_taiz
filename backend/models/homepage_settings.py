@@ -26,14 +26,14 @@ class HomepageSettingsBase(BaseModel):
     hero_title: str
     hero_subtitle: str
     hero_text: str
-    hero_image_url: HttpUrl
+    hero_image_url: str
     hero_cta_contact_link: HttpUrl
     hero_cta_services_link: HttpUrl
 
     # About Section
     about_title: str
     about_subtitle: str
-    about_image_url: HttpUrl
+    about_image_url: str
     about_text_1: str
     about_text_2: str
     about_features: List[FeatureItem]
