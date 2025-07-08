@@ -174,7 +174,7 @@ async function salvarAgendamento(event) {
         data_hora: `${data}T${hora}:00`,
         duracao_minutos: parseInt(formData.get('duracao_minutos')),
         observacoes: formData.get('observacoes'),
-        status: 'confirmado'
+        status: 'agendado'
     };
     
     try {
