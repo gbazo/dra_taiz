@@ -7,28 +7,43 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Detalhes do Pagamento</h1>
-        <div id="detalhes-agendamento"></div>
-        <form id="form-pagamento">
-            <label for="desconto">Desconto:</label>
-            <input type="number" id="desconto" name="desconto" step="0.01" min="0">
-            <label for="acrescimo">Acréscimo:</label>
-            <input type="number" id="acrescimo" name="acrescimo" step="0.01" min="0">
-            <label for="metodo-pagamento">Método de Pagamento:</label>
-            <select id="metodo-pagamento" name="metodo-pagamento">
-                <option value="dinheiro">Dinheiro</option>
-                <option value="pix">PIX</option>
-                <option value="credito">Cartão de Crédito</option>
-                <option value="debito">Cartão de Débito</option>
-            </select>
-            <div id="form-cartao" style="display: none;">
-                <!-- Formulário do Mercado Pago será inserido aqui -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Detalhes do Pagamento</h1>
             </div>
-            <button type="submit">Realizar Pagamento</button>
-        </form>
-    </div>
+            <div class="form-section">
+                <div id="detalhes-agendamento"></div>
+                <form id="form-pagamento">
+                    <div class="form-group">
+                        <label for="desconto">Desconto:</label>
+                        <input type="number" id="desconto" name="desconto" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="acrescimo">Acréscimo:</label>
+                        <input type="number" id="acrescimo" name="acrescimo" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="metodo-pagamento">Método de Pagamento:</label>
+                        <select id="metodo-pagamento" name="metodo-pagamento">
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="pix">PIX</option>
+                            <option value="credito">Cartão de Crédito</option>
+                            <option value="debito">Cartão de Débito</option>
+                        </select>
+                    </div>
+                    <div id="form-cartao" style="display: none;">
+                        <!-- Formulário do Mercado Pago será inserido aqui -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Realizar Pagamento</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="/js/main.js"></script>
     <script src="/js/pagamento.js"></script>
 </body>
 </html>
