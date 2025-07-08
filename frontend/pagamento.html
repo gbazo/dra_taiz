@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - Clínica Estética</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Detalhes do Pagamento</h1>
+        <div id="detalhes-agendamento"></div>
+        <form id="form-pagamento">
+            <label for="desconto">Desconto:</label>
+            <input type="number" id="desconto" name="desconto" step="0.01" min="0">
+            <label for="acrescimo">Acréscimo:</label>
+            <input type="number" id="acrescimo" name="acrescimo" step="0.01" min="0">
+            <label for="metodo-pagamento">Método de Pagamento:</label>
+            <select id="metodo-pagamento" name="metodo-pagamento">
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="credito">Cartão de Crédito</option>
+                <option value="debito">Cartão de Débito</option>
+            </select>
+            <div id="form-cartao" style="display: none;">
+                <!-- Formulário do Mercado Pago será inserido aqui -->
+            </div>
+            <button type="submit">Realizar Pagamento</button>
+        </form>
+    </div>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="/js/pagamento.js"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 import os
 
-from backend.routers import auth, clientes, fichas, agendamentos, procedimentos
+from backend.routers import auth, clientes, fichas, agendamentos, procedimentos, pagamentos
 
 app = FastAPI(
     title="Clínica Estética API", 
@@ -42,6 +42,7 @@ app.include_router(clientes.router, prefix="/api/clientes", tags=["clientes"])
 app.include_router(fichas.router, prefix="/api/fichas", tags=["fichas"])
 app.include_router(agendamentos.router, prefix="/api/agendamentos", tags=["agendamentos"])
 app.include_router(procedimentos.router, prefix="/api/procedimentos", tags=["procedimentos"])
+app.include_router(pagamentos.router, prefix="/api/pagamentos", tags=["pagamentos"])
 
 # Serve static files
 app.mount("/css", StaticFiles(directory="frontend/css"), name="css")
@@ -88,6 +89,10 @@ async def read_procedimentos():
 @app.get("/links")
 async def read_links():
     return FileResponse("frontend/links.html")
+
+@app.get("/pagamento")
+async def read_pagamento():
+    return FileResponse("frontend/pagamento.html")
 
 @app.get("/health")
 async def health_check():

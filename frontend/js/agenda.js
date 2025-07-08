@@ -192,6 +192,29 @@ async function salvarAgendamento(event) {
 }
 
 async function viewAgendamento(agendamentoId) {
-    // Implement view/edit agendamento
-    alert('Visualizar agendamento: ' + agendamentoId);
+    const agendamento = await apiRequest(`/agendamentos/${agendamentoId}`);
+
+    const modal = document.getElementById('modalStatusAgendamento');
+    modal.querySelector('#agendamentoId').value = agendamentoId;
+    
+    openModal('modalStatusAgendamento');
+}
+
+async function atualizarStatus(status) {
+    const agendamentoId = document.getElementById('agendamentoId').value;
+    
+    if (status === 'realizado') {
+        window.location.href = `/pagamento?agendamentoId=${agendamentoId}`;
+    } else {
+        try {
+            await apiRequest(`/agendamentos/${agendamentoId}/status?status=${status}`, {
+                method: 'PUT'
+            });
+            closeModal('modalStatusAgendamento');
+            loadAgenda();
+            alert('Status do agendamento atualizado!');
+        } catch (error) {
+            alert('Erro ao atualizar status: ' + error.message);
+        }
+    }
 }

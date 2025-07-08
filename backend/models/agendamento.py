@@ -4,9 +4,10 @@ from datetime import datetime
 from enum import Enum
 
 class StatusAgendamento(str, Enum):
-    confirmado = "confirmado"
+    agendado = "agendado"
     realizado = "realizado"
     cancelado = "cancelado"
+    falta = "falta"
 
 class AgendamentoBase(BaseModel):
     profissional_id: str
@@ -15,7 +16,7 @@ class AgendamentoBase(BaseModel):
     data_hora: datetime
     duracao_minutos: int
     observacoes: Optional[str] = None
-    status: StatusAgendamento = StatusAgendamento.confirmado
+    status: StatusAgendamento = StatusAgendamento.agendado
 
 class AgendamentoCreate(AgendamentoBase):
     pass

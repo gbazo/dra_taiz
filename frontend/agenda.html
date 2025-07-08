@@ -108,5 +108,24 @@
 
     <script src="/js/main.js"></script>
     <script src="/js/agenda.js"></script>
+
+    <!-- Modal Status Agendamento -->
+    <div id="modalStatusAgendamento" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Atualizar Status do Agendamento</h2>
+                <span class="close" onclick="closeModal('modalStatusAgendamento')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>O atendimento ocorreu?</p>
+                <input type="hidden" id="agendamentoId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="atualizarStatus('realizado')">Sim, ocorreu</button>
+                <button class="btn btn-danger" onclick="atualizarStatus('falta')">Não ocorreu (Falta)</button>
+                <button class="btn btn-secondary" onclick="closeModal('modalStatusAgendamento')">Cancelar</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

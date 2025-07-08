@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from datetime import datetime, date, timedelta
 
-from backend.models.agendamento import Agendamento, AgendamentoCreate, AgendamentoUpdate
+from backend.models.agendamento import Agendamento, AgendamentoCreate, AgendamentoUpdate, StatusAgendamento
 from backend.utils.parse_client import parse_client
 from backend.routers.auth import get_current_user
 
@@ -137,5 +137,23 @@ async def delete_agendamento(
         # Soft delete - apenas muda status para cancelado
         parse_client.update_object("Agendamento", agendamento_id, {"status": "cancelado"})
         return {"message": "Agendamento cancelado"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.put("/{agendamento_id}/status", response_model=Agendamento)
+async def update_agendamento_status(
+    agendamento_id: str,
+    status: StatusAgendamento,
+    current_user: dict = Depends(get_current_user)
+):
+    try:
+        update_data = {"status": status.value}
+        parse_client.update_object("Agendamento", agendamento_id, update_data)
+        
+        result = parse_client.get_object("Agendamento", agendamento_id)
+        if 'data_hora' in result and isinstance(result['data_hora'], dict):
+            result['data_hora'] = result['data_hora']['iso']
+            
+        return Agendamento(**result)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
