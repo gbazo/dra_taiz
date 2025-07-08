@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração da Homepage - Dra. Taíz Brasil</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/img/logo.webp" alt="Logo" class="nav-logo-img">
+                <span>Dra. Taíz Brasil</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/agenda">Agenda</a></li>
+                <li><a href="/clientes">Clientes</a></li>
+                <li><a href="/procedimentos">Procedimentos</a></li>
+                <li><a href="/homepage_config" class="active">Config. Homepage</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Configuração da Homepage</h1>
+            </div>
+
+            <form id="homepageConfigForm">
+                <!-- Hero Section -->
+                <div class="form-section">
+                    <h3>Seção Hero</h3>
+                    <div class="form-group">
+                        <label for="hero_title">Título</label>
+                        <input type="text" id="hero_title" name="hero_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="hero_subtitle">Subtítulo</label>
+                        <input type="text" id="hero_subtitle" name="hero_subtitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="hero_text">Texto</label>
+                        <textarea id="hero_text" name="hero_text" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="hero_image_url">URL da Imagem</label>
+                        <input type="url" id="hero_image_url" name="hero_image_url">
+                    </div>
+                    <div class="form-group">
+                        <label for="hero_cta_contact_link">Link CTA Contato</label>
+                        <input type="url" id="hero_cta_contact_link" name="hero_cta_contact_link">
+                    </div>
+                    <div class="form-group">
+                        <label for="hero_cta_services_link">Link CTA Serviços</label>
+                        <input type="url" id="hero_cta_services_link" name="hero_cta_services_link">
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="form-section">
+                    <h3>Seção Sobre</h3>
+                    <div class="form-group">
+                        <label for="about_title">Título</label>
+                        <input type="text" id="about_title" name="about_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="about_subtitle">Subtítulo</label>
+                        <input type="text" id="about_subtitle" name="about_subtitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="about_image_url">URL da Imagem</label>
+                        <input type="url" id="about_image_url" name="about_image_url">
+                    </div>
+                    <div class="form-group">
+                        <label for="about_text_1">Texto 1</label>
+                        <textarea id="about_text_1" name="about_text_1" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="about_text_2">Texto 2</label>
+                        <textarea id="about_text_2" name="about_text_2" rows="4"></textarea>
+                    </div>
+                    <h4>Itens de Destaque (Features)</h4>
+                    <div id="about_features_container"></div>
+                    <button type="button" class="btn btn-secondary" onclick="addFeatureItem()">Adicionar Item</button>
+                </div>
+
+                <!-- Services Section -->
+                <div class="form-section">
+                    <h3>Seção Serviços</h3>
+                    <div class="form-group">
+                        <label for="services_title">Título</label>
+                        <input type="text" id="services_title" name="services_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="services_subtitle">Subtítulo</label>
+                        <input type="text" id="services_subtitle" name="services_subtitle">
+                    </div>
+                    <h4>Cards de Serviço</h4>
+                    <div id="services_cards_container"></div>
+                    <button type="button" class="btn btn-secondary" onclick="addServiceCard()">Adicionar Card</button>
+                </div>
+
+                <!-- Testimonials Section -->
+                <div class="form-section">
+                    <h3>Seção Depoimentos</h3>
+                    <div class="form-group">
+                        <label for="testimonials_title">Título</label>
+                        <input type="text" id="testimonials_title" name="testimonials_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="testimonials_subtitle">Subtítulo</label>
+                        <input type="text" id="testimonials_subtitle" name="testimonials_subtitle">
+                    </div>
+                    <h4>Cards de Depoimento</h4>
+                    <div id="testimonials_cards_container"></div>
+                    <button type="button" class="btn btn-secondary" onclick="addTestimonialCard()">Adicionar Card</button>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="form-section">
+                    <h3>Seção CTA (Call to Action)</h3>
+                    <div class="form-group">
+                        <label for="cta_title">Título</label>
+                        <input type="text" id="cta_title" name="cta_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="cta_text">Texto</label>
+                        <textarea id="cta_text" name="cta_text" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="cta_whatsapp_link">Link WhatsApp</label>
+                        <input type="url" id="cta_whatsapp_link" name="cta_whatsapp_link">
+                    </div>
+                    <div class="form-group">
+                        <label for="cta_all_links">Link Todos os Links</label>
+                        <input type="url" id="cta_all_links" name="cta_all_links">
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="form-section">
+                    <h3>Seção Contato</h3>
+                    <div class="form-group">
+                        <label for="contact_title">Título</label>
+                        <input type="text" id="contact_title" name="contact_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact_subtitle">Subtítulo</label>
+                        <input type="text" id="contact_subtitle" name="contact_subtitle">
+                    </div>
+                    <h4>Itens de Contato</h4>
+                    <div id="contact_info_items_container"></div>
+                    <button type="button" class="btn btn-secondary" onclick="addContactInfoItem()">Adicionar Item</button>
+                    <div class="form-group">
+                        <label for="contact_map_embed_url">URL Embed Google Maps</label>
+                        <input type="url" id="contact_map_embed_url" name="contact_map_embed_url">
+                    </div>
+                </div>
+
+                <!-- Footer Section -->
+                <div class="form-section">
+                    <h3>Rodapé</h3>
+                    <div class="form-group">
+                        <label for="footer_social_instagram">Link Instagram</label>
+                        <input type="url" id="footer_social_instagram" name="footer_social_instagram">
+                    </div>
+                    <div class="form-group">
+                        <label for="footer_social_facebook">Link Facebook</label>
+                        <input type="url" id="footer_social_facebook" name="footer_social_facebook">
+                    </div>
+                    <div class="form-group">
+                        <label for="footer_social_whatsapp">Link WhatsApp</label>
+                        <input type="url" id="footer_social_whatsapp" name="footer_social_whatsapp">
+                    </div>
+                    <div class="form-group">
+                        <label for="footer_social_all_links">Link Todos os Links</label>
+                        <input type="url" id="footer_social_all_links" name="footer_social_all_links">
+                    </div>
+                    <div class="form-group">
+                        <label for="footer_copyright">Texto Copyright</label>
+                        <input type="text" id="footer_copyright" name="footer_copyright">
+                    </div>
+                    <div class="form-group">
+                        <label for="footer_developer_text">Texto Desenvolvedor</label>
+                        <input type="text" id="footer_developer_text" name="footer_developer_text">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Salvar Configurações</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/homepage_config.js"></script>
+</body>
+</html>
