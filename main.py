@@ -99,6 +99,10 @@ async def read_pagamento():
 async def read_homepage_config():
     return FileResponse("frontend/homepage_config.html")
 
+@app.get("/homepage_old")
+async def read_homepage_old():
+    return FileResponse("frontend/homepage_old.html")
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
