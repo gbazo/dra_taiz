@@ -27,7 +27,9 @@ console.log('API URL:', API_URL);
 // Check authentication
 function checkAuth() {
     const token = localStorage.getItem('token');
-    if (!token && !window.location.pathname.includes('/login')) {
+    const publicPaths = ['/', '/homepage', '/login', '/register'];
+    
+    if (!token && !publicPaths.includes(window.location.pathname)) {
         window.location.href = '/login';
     }
 }
